@@ -4,6 +4,9 @@ Pranav Bellie
 Team Members
  Pranav Bellie
  Yashwanth Vanukuru
+Team Members
+ Yashwanth Vanukuru
+ Pranav Bellie
 
  Description
 HobbyCircles is a community-driven platform designed to find a specific group of people to hang out with in a new city. The reason behind why we created this app is that, right now it is extremely hard to find specific communities in the area that people represent because the information about the groups is currently decomposed over a great number of sources and applications of social media. The HobbyCircles solution to this issue is to offer a single and structured hub in which users can browse Circles, access event calendars, RSVP meetups, and chat with members in a single location.
