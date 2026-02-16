@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HobbyCircles | Browse Groups</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; }
+        header { background: #333; color: white; padding: 1rem; text-align: center; }
+        .search-container { padding: 20px; text-align: center; }
+        input { padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc; }
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+        .card { background: white; border: 1px solid #ddd; padding: 15px; width: 250px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; background: #28a745; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <header><h1>HobbyCircles</h1></header>
+    
+    <div class="search-container">
+        <h2>Find Your Next Circle</h2>
+        <input type="text" placeholder="Search by interest (e.g. Chess, Soccer)...">
+    </div>
+
+    <div class="gallery">
+        <div class="card">
+            <h3>Greensboro Chess Club</h3>
+            <p>Category: Gaming</p>
+            <p>Join us for weekly matches at the park!</p>
+            <a href="join.html" class="btn">View Details</a>
+        </div>
+        <div class="card">
+            <h3>Downtown Runners</h3>
+            <p>Category: Sports</p>
+            <p>Morning jogs through the city center.</p>
+            <a href="join.html" class="btn">View Details</a>
+        </div>
+    </div>
+</body>
+</html>
