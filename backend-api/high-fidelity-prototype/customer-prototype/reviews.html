@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HobbyCircles | Submit Review</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; }
+        header { background: #333; color: white; padding: 1rem; text-align: center; }
+        .review-box { max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        select, textarea { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-post { background: #ffc107; color: #333; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; }
+        .back-home { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header><h1>HobbyCircles</h1></header>
+
+<div class="review-box">
+    <h2>Share Your Experience</h2>
+    <label>Which circle are you reviewing?</label>
+    <select>
+        <option>Greensboro Chess Club</option>
+        <option>Downtown Runners</option>
+    </select>
+
+    <label>Rating (1-5):</label>
+    <select>
+        <option>5 - Excellent</option>
+        <option>4 - Great</option>
+        <option>3 - Average</option>
+        <option>2 - Poor</option>
+        <option>1 - Disappointing</option>
+    </select>
+
+    <label>Your Review:</label>
+    <textarea rows="5" placeholder="What did you like or dislike?"></textarea>
+
+    <button type="button" class="btn-post" onclick="alert('Review Submitted! Thank you.')">Post Review</button>
+    <a href="index.html" class="back-home">Return to Browse</a>
+</div>
+
+</body>
+</html>

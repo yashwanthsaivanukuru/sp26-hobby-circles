@@ -6,6 +6,10 @@
     <style>
         body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; }
         header { background: #333; color: white; padding: 1rem; text-align: center; }
+        /* Navigation Style */
+        nav { background: #444; padding: 10px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
         .search-container { padding: 20px; text-align: center; }
         input { padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc; }
         .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
@@ -16,6 +20,12 @@
 <body>
     <header><h1>HobbyCircles</h1></header>
     
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="profile.html">My Profile</a>
+        <a href="reviews.html">Reviews</a>
+    </nav>
+
     <div class="search-container">
         <h2>Find Your Next Circle</h2>
         <input type="text" placeholder="Search by interest (e.g. Chess, Soccer)...">
