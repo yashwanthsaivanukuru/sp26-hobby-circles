@@ -14,6 +14,8 @@ public interface CircleRepository extends JpaRepository<Circle, Long> {
 
     List<Circle> findByCategory(String category);
 
+    List<Circle> findByNameContainingIgnoreCase(String name);
+
     @Query(value = "SELECT c.* FROM circles c WHERE c.provider_id = :providerId", nativeQuery = true)
     Optional<Circle> findByProviderId(Long providerId);
 }
