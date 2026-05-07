@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    @Query(value = "SELECT e.* FROM events e WHERE e.circle_id = :circleId", nativeQuery = true)
-    List<Event> findByCircleId(Long circleId);
+    List<Event> findByCircleCircleId(Long circleId);
 }

@@ -207,7 +207,7 @@
                   <div class="event-meta">${event.description}</div>
                 </#if>
               </td>
-              <td>${event.eventDate?string("MMM dd, yyyy 'at' hh:mm a")}</td>
+              <td><#if event.eventDate??>${event.eventDate?string("MMM dd, yyyy 'at' hh:mm a")}<#else>TBD</#if></td>
               <td>📍 ${event.location!""}</td>
               <td>
                 <#if event.status?string == "UPCOMING"><span class="badge badge-upcoming">Upcoming</span>

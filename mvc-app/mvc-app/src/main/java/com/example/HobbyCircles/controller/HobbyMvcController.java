@@ -142,7 +142,7 @@ public class HobbyMvcController {
             return "redirect:/";
         }
         circleRepository.findById(circleId).ifPresent(c -> model.addAttribute("circle", c));
-        List<Event> events = eventRepository.findByCircleId(circleId);
+        List<Event> events = eventRepository.findByCircleCircleId(circleId);
         model.addAttribute("events", events);
         model.addAttribute("userEmail", session.getAttribute("userEmail"));
         return "circle-events";

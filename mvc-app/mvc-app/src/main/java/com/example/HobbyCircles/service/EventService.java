@@ -26,7 +26,7 @@ public class EventService {
     }
 
     public List<Event> getEventsByCircleId(Long circleId) {
-        return eventRepository.findByCircleId(circleId);
+       return eventRepository.findByCircleCircleId(circleId);
     }
 
     public Event updateEvent(Long id, Event eventDetails) {
