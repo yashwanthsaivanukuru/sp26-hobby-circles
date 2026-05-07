@@ -4,526 +4,405 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HobbyCircles – Welcome</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --forest:   #2c6e49;
-      --leaf:     #52b788;
-      --mint:     #d8f3dc;
-      --bark:     #1b4332;
-      --sand:     #f8f5f0;
-      --warm-grey:#6b6b6b;
-      --error:    #c0392b;
-      --card-bg:  #ffffff;
-    }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest: #1a3a2a;
+      --forest-mid: #2c5f3f;
+      --forest-light: #3d7a54;
+      --cream: #f7f2ea;
+      --cream-dark: #ede5d4;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --text-dark: #1a1a1a;
+      --text-mid: #4a4a4a;
+      --text-light: #888;
+      --error: #c0392b;
+      --success: #27ae60;
+    }
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--sand);
+      background-color: var(--forest);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-    }
-
-    /* ── PAGE LAYOUT ── */
-    .page-wrap {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 100vh;
-    }
-
-    /* ── LEFT PANEL ── */
-    .hero-panel {
-      background: linear-gradient(160deg, var(--bark) 0%, var(--forest) 60%, var(--leaf) 100%);
-      display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      padding: 60px 56px;
-      color: #fff;
       position: relative;
       overflow: hidden;
     }
 
-    .hero-panel::before {
+    /* Background texture */
+    body::before {
       content: '';
-      position: absolute;
-      width: 420px; height: 420px;
-      border-radius: 50%;
-      border: 60px solid rgba(255,255,255,0.05);
-      top: -80px; left: -80px;
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(61,122,84,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, rgba(26,58,42,0.8) 0%, transparent 60%);
+      pointer-events: none;
     }
-    .hero-panel::after {
+
+    /* Decorative circles */
+    body::after {
       content: '';
-      position: absolute;
-      width: 280px; height: 280px;
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border: 1px solid rgba(201,168,76,0.08);
       border-radius: 50%;
-      border: 40px solid rgba(255,255,255,0.05);
-      bottom: -40px; right: -40px;
+      top: -200px;
+      right: -200px;
+      pointer-events: none;
     }
 
-    .brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 12px;
+    .decorative-ring {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border: 1px solid rgba(201,168,76,0.06);
+      border-radius: 50%;
+      bottom: -150px;
+      left: -100px;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      display: flex;
+      width: 900px;
+      max-width: 95vw;
+      min-height: 560px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
       position: relative;
       z-index: 1;
+      animation: fadeUp 0.6s ease both;
     }
 
-    .brand span { color: var(--leaf); }
-
-    .tagline {
-      font-size: 1.05rem;
-      font-weight: 300;
-      opacity: 0.85;
-      line-height: 1.7;
-      max-width: 340px;
-      margin-bottom: 52px;
-      position: relative;
-      z-index: 1;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .feature-list {
-      list-style: none;
-      position: relative;
-      z-index: 1;
-    }
-
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .feature-icon {
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .feature-text strong {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .feature-text p {
-      font-size: 0.82rem;
-      opacity: 0.72;
-      line-height: 1.5;
-    }
-
-    /* ── RIGHT PANEL ── */
-    .auth-panel {
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 56px;
-    }
-
-    .auth-box {
-      width: 100%;
-      max-width: 420px;
-    }
-
-    /* ── TAB SWITCHER ── */
-    .tabs {
-      display: flex;
-      background: var(--sand);
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 36px;
-    }
-
-    .tab-btn {
+    /* Left panel */
+    .panel-left {
       flex: 1;
-      padding: 10px;
-      border: none;
-      background: transparent;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.93rem;
-      font-weight: 500;
-      color: var(--warm-grey);
-      cursor: pointer;
-      transition: all 0.2s;
+      background: linear-gradient(160deg, var(--forest-mid), var(--forest));
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
     }
 
-    .tab-btn.active {
-      background: #fff;
-      color: var(--forest);
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%);
+      top: -80px;
+      right: -80px;
+      border-radius: 50%;
     }
 
-    /* ── FORMS ── */
-    .auth-form { display: none; }
-    .auth-form.active { display: block; }
-
-    .form-title {
+    .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.7rem;
-      color: var(--bark);
-      margin-bottom: 6px;
+      font-size: 1.8rem;
+      color: var(--cream);
+      letter-spacing: -0.02em;
     }
 
-    .form-subtitle {
-      font-size: 0.88rem;
-      color: var(--warm-grey);
-      margin-bottom: 28px;
+    .logo span {
+      color: var(--gold);
     }
 
-    .field {
-      margin-bottom: 18px;
+    .panel-tagline {
+      position: relative;
+      z-index: 1;
     }
 
-    .field label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--bark);
-      margin-bottom: 6px;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
+    .panel-tagline h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 16px;
     }
 
-    .field input,
-    .field select,
-    .field textarea {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.93rem;
-      color: #333;
-      background: var(--sand);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
+    .panel-tagline p {
+      color: rgba(247,242,234,0.6);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 300;
     }
 
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: var(--forest);
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(44,110,73,0.12);
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .field textarea { resize: vertical; min-height: 80px; }
-
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .role-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232c6e49' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
-    }
-
-    /* ── SUBMIT BUTTON ── */
-    .submit-btn {
-      width: 100%;
-      padding: 13px;
-      background: var(--forest);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.2s, transform 0.1s;
-      letter-spacing: 0.2px;
-    }
-
-    .submit-btn:hover  { background: var(--bark); }
-    .submit-btn:active { transform: scale(0.99); }
-
-    /* ── ALERTS ── */
-    .alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-    .alert-error   { background: #fdf0ef; color: var(--error); border-left: 3px solid var(--error); }
-    .alert-success { background: var(--mint); color: var(--bark); border-left: 3px solid var(--forest); }
-
-    /* ── SWITCH LINK ── */
-    .switch-link {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 0.87rem;
-      color: var(--warm-grey);
-    }
-    .switch-link a {
-      color: var(--forest);
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .switch-link a:hover { text-decoration: underline; }
-
-    /* ── DIVIDER ── */
-    .divider {
+    .feature {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin: 20px 0;
-      color: #ccc;
-      font-size: 0.8rem;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #eee;
+      color: rgba(247,242,234,0.75);
+      font-size: 0.875rem;
     }
 
-    /* ── ROLE PILLS ── */
+    .feature-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Right panel */
+    .panel-right {
+      width: 420px;
+      background: var(--cream);
+      padding: 48px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 32px;
+      background: var(--cream-dark);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 9px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      border: none;
+      background: none;
+      border-radius: 7px;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .tab.active {
+      background: white;
+      color: var(--forest);
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .form { display: none; }
+    .form.active { display: block; }
+
+    .form-group { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 7px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 9px;
+      font-size: 0.93rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--forest-light);
+      box-shadow: 0 0 0 3px rgba(61,122,84,0.1);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--forest);
+      color: var(--cream);
+      border: none;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary:hover { background: var(--forest-mid); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .alert {
+      padding: 11px 14px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .alert-error { background: #fdf0ef; color: var(--error); border-left: 3px solid var(--error); }
+    .alert-success { background: #d8f3dc; color: #1b4332; border-left: 3px solid var(--success); }
+
+    .switch-text {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .switch-text a {
+      color: var(--forest-light);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
     .role-pills {
       display: flex;
-      gap: 10px;
-      margin-bottom: 4px;
+      gap: 8px;
+      margin-bottom: 18px;
     }
-    .role-pill {
+
+    .pill {
       flex: 1;
-      padding: 10px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 10px;
-      background: var(--sand);
-      cursor: pointer;
+      padding: 10px 8px;
+      border: 1.5px solid #ddd;
+      border-radius: 9px;
       text-align: center;
-      font-size: 0.87rem;
-      font-weight: 500;
-      color: var(--warm-grey);
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text-mid);
       transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      background: white;
     }
-    .role-pill.selected {
-      border-color: var(--forest);
-      background: var(--mint);
-      color: var(--bark);
+
+    .pill.selected {
+      border-color: var(--forest-light);
+      background: rgba(61,122,84,0.07);
+      color: var(--forest);
       font-weight: 600;
     }
-    .role-pill .pill-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
 
-    #roleInput { display: none; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--bark);
-      color: rgba(255,255,255,0.45);
-      text-align: center;
-      padding: 14px;
-      font-size: 0.78rem;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .page-wrap { grid-template-columns: 1fr; }
-      .hero-panel { padding: 40px 32px; min-height: auto; }
-      .auth-panel { padding: 36px 24px; }
-      .field-row { grid-template-columns: 1fr; }
+    @media (max-width: 700px) {
+      .panel-left { display: none; }
+      .panel-right { width: 100%; }
     }
   </style>
 </head>
 <body>
-
-<div class="page-wrap">
-
-  <!-- ── LEFT: HERO ── -->
-  <div class="hero-panel">
-    <div class="brand">Hobby<span>Circles</span></div>
-    <p class="tagline">Find your people. Explore local interest groups and connect with hobbyists in your city.</p>
-
-    <ul class="feature-list">
-      <li>
-        <div class="feature-icon">🔍</div>
-        <div class="feature-text">
-          <strong>Discover Circles</strong>
-          <p>Browse hobby groups by category or city</p>
-        </div>
-      </li>
-      <li>
-        <div class="feature-icon">📅</div>
-        <div class="feature-text">
-          <strong>Join Meetups</strong>
-          <p>RSVP to events and see upcoming activities</p>
-        </div>
-      </li>
-      <li>
-        <div class="feature-icon">⭐</div>
-        <div class="feature-text">
-          <strong>Leave Reviews</strong>
-          <p>Share your experience and help others discover great groups</p>
-        </div>
-      </li>
-      <li>
-        <div class="feature-icon">🏆</div>
-        <div class="feature-text">
-          <strong>Lead a Circle</strong>
-          <p>Create and manage your own hobby community</p>
-        </div>
-      </li>
-    </ul>
+<div class="decorative-ring"></div>
+<div class="wrapper">
+  <!-- Left branding panel -->
+  <div class="panel-left">
+    <div class="logo">Hobby<span>Circles</span></div>
+    <div class="panel-tagline">
+      <h2>Find your people. Share your passion.</h2>
+      <p>Connect with local hobby communities and discover groups that share your interests.</p>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="feature-dot"></div>Browse hundreds of local circles</div>
+      <div class="feature"><div class="feature-dot"></div>Join and connect instantly</div>
+      <div class="feature"><div class="feature-dot"></div>Share reviews and experiences</div>
+      <div class="feature"><div class="feature-dot"></div>Host and manage your own circle</div>
+    </div>
   </div>
 
-  <!-- ── RIGHT: AUTH FORMS ── -->
-  <div class="auth-panel">
-    <div class="auth-box">
+  <!-- Right form panel -->
+  <div class="panel-right">
+    <#if errorMessage??>
+      <div class="alert alert-error">${errorMessage}</div>
+    </#if>
+    <#if successMessage??>
+      <div class="alert alert-success">${successMessage}</div>
+    </#if>
 
-      <!-- Error / Success flash messages from Spring -->
-      <#if errorMessage??>
-        <div class="alert alert-error">${errorMessage}</div>
-      </#if>
-      <#if successMessage??>
-        <div class="alert alert-success">${successMessage}</div>
-      </#if>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('login')">Sign In</button>
+      <button class="tab" onclick="showTab('register')">Register</button>
+    </div>
 
-      <!-- Tab Switcher -->
-      <div class="tabs" id="authTabs">
-        <button class="tab-btn active" onclick="showTab('login')">Sign In</button>
-        <button class="tab-btn" onclick="showTab('register')">Create Account</button>
-      </div>
+    <!-- LOGIN -->
+    <div id="loginForm" class="form active">
+      <form action="/auth/login" method="post">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-primary">Sign In →</button>
+      </form>
+      <p class="switch-text">New here? <a onclick="showTab('register')">Create an account</a></p>
+    </div>
 
-      <!-- ── LOGIN FORM ── -->
-      <div id="loginForm" class="auth-form active">
-        <h2 class="form-title">Welcome back</h2>
-        <p class="form-subtitle">Sign in to access your circles and events</p>
-
-        <form action="/auth/login" method="post">
-          <div class="field">
-            <label for="loginEmail">Email Address</label>
-            <input type="email" id="loginEmail" name="email"
-                   placeholder="you@example.com" required
-                   <#if loginEmail??>value="${loginEmail}"</#if>>
+    <!-- REGISTER -->
+    <div id="registerForm" class="form">
+      <form action="/auth/register" method="post">
+        <div class="form-group">
+          <label>I want to...</label>
+          <div class="role-pills">
+            <div class="pill selected" onclick="selectRole('HOBBYIST', this)">🎯 Join Circles</div>
+            <div class="pill" onclick="selectRole('PROVIDER', this)">🏆 Lead a Circle</div>
           </div>
-          <div class="field">
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" name="password"
-                   placeholder="••••••••" required>
-          </div>
-
-          <!-- Hidden role field — auto-detected server-side but kept for UX hint -->
-          <button type="submit" class="submit-btn">Sign In →</button>
-        </form>
-
-        <p class="switch-link">
-          Don't have an account? <a onclick="showTab('register')">Create one free</a>
-        </p>
-      </div>
-
-      <!-- ── REGISTER FORM ── -->
-      <div id="registerForm" class="auth-form">
-        <h2 class="form-title">Join HobbyCircles</h2>
-        <p class="form-subtitle">Create your account and start connecting</p>
-
-        <form action="/auth/register" method="post" id="regForm">
-
-          <!-- Role Selection Pills -->
-          <div class="field">
-            <label>I want to…</label>
-            <div class="role-pills">
-              <div class="role-pill selected" onclick="selectRole('HOBBYIST', this)">
-                <span class="pill-icon">🎯</span>
-                Join Circles
-              </div>
-              <div class="role-pill" onclick="selectRole('PROVIDER', this)">
-                <span class="pill-icon">🏆</span>
-                Lead a Circle
-              </div>
-            </div>
-            <input type="hidden" id="roleInput" name="role" value="HOBBYIST">
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="regFirstName">First Name</label>
-              <input type="text" id="regFirstName" name="firstName"
-                     placeholder="Alex" required>
-            </div>
-            <div class="field">
-              <label for="regLastName">Last Name</label>
-              <input type="text" id="regLastName" name="lastName"
-                     placeholder="Smith">
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="regEmail">Email Address</label>
-            <input type="email" id="regEmail" name="email"
-                   placeholder="you@example.com" required>
-          </div>
-
-          <div class="field">
-            <label for="regPassword">Password</label>
-            <input type="password" id="regPassword" name="password"
-                   placeholder="Min. 6 characters" required minlength="6">
-          </div>
-
-          <!-- Provider-only bio field (shown/hidden by JS) -->
-          <div class="field" id="bioField" style="display:none;">
-            <label for="regBio">Bio (optional)</label>
-            <textarea id="regBio" name="bio"
-                      placeholder="Tell us about the circles you want to lead…"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Create Account →</button>
-        </form>
-
-        <p class="switch-link">
-          Already have an account? <a onclick="showTab('login')">Sign in</a>
-        </p>
-      </div>
-
+          <input type="hidden" id="roleInput" name="role" value="HOBBYIST">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Min. 6 characters" required minlength="6">
+        </div>
+        <button type="submit" class="btn-primary">Create Account →</button>
+      </form>
+      <p class="switch-text">Already have an account? <a onclick="showTab('login')">Sign in</a></p>
     </div>
   </div>
 </div>
 
-<footer>HobbyCircles &copy; 2026 &nbsp;·&nbsp; UNCG CSC 340</footer>
-
 <script>
-  // ── Tab switching
   function showTab(tab) {
     document.getElementById('loginForm').classList.toggle('active', tab === 'login');
     document.getElementById('registerForm').classList.toggle('active', tab === 'register');
-    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
     });
   }
-
-  // ── Role pill selection
   function selectRole(role, el) {
-    document.querySelectorAll('.role-pill').forEach(p => p.classList.remove('selected'));
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
     el.classList.add('selected');
     document.getElementById('roleInput').value = role;
-    document.getElementById('bioField').style.display = (role === 'PROVIDER') ? 'block' : 'none';
   }
-
-  // ── If server redirected back to register tab (e.g., after error on register)
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('tab') === 'register') showTab('register');
+  if (new URLSearchParams(window.location.search).get('tab') === 'register') showTab('register');
 </script>
 </body>
 </html>

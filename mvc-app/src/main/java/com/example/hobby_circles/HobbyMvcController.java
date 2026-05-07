@@ -1,48 +1,79 @@
-package com.example.hobby_circles;
+package com.example.HobbyCircles.controller;
 
+import com.example.HobbyCircles.entity.Circle;
+import com.example.HobbyCircles.entity.Membership;
+import com.example.HobbyCircles.entity.Review;
+import com.example.HobbyCircles.repository.CircleRepository;
+import com.example.HobbyCircles.repository.MembershipRepository;
+import com.example.HobbyCircles.repository.ReviewRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
 
 @Controller
 public class HobbyMvcController {
 
     @Autowired
-    private HobbyCircleRepository repository;
+    private CircleRepository circleRepository;
 
     @Autowired
-    private RegistrationRepository registrationRepository;
-
-    @Autowired
-    private HobbyistRepository hobbyistRepository;
+    private MembershipRepository membershipRepository;
 
     @Autowired
     private ReviewRepository reviewRepository;
 
-    // Root redirect
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/search";
-    }
+    // ── Browse / Search Circles ──────────────────────────────────────────────
 
-    // USE-CASE 1: SEARCH
     @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String query, Model model) {
-        if (query != null && !query.isEmpty()) {
-            model.addAttribute("circles", repository.findByNameContainingIgnoreCase(query));
+    public String search(@RequestParam(name = "query", required = false) String query,
+                         HttpSession session,
+                         Model model) {
+
+        List<Circle> circles;
+        if (query != null && !query.isBlank()) {
+            circles = circleRepository.findByNameContainingIgnoreCase(query);
+            if (circles.isEmpty()) circles = circleRepository.findByCity(query);
+            if (circles.isEmpty()) circles = circleRepository.findByCategory(query);
         } else {
-            model.addAttribute("circles", repository.findAll());
+            circles = circleRepository.findAll();
         }
+
+        model.addAttribute("circles",   circles);
+        model.addAttribute("query",     query);
+        model.addAttribute("userId",    session.getAttribute("userId"));
+        model.addAttribute("userEmail", session.getAttribute("userEmail"));
         return "circle-list";
     }
 
-    // USE-CASE 2: JOIN
+    // ── Hobbyist Dashboard ───────────────────────────────────────────────────
+
+    @GetMapping("/hobbyist/dashboard")
+    public String hobbyistDashboard(HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("userEmail", session.getAttribute("userEmail"));
+        model.addAttribute("memberships", membershipRepository.findAll());
+        return "hobbyist-dashboard";
+    }
+
+    // ── Join a Circle ────────────────────────────────────────────────────────
+
     @GetMapping("/join/{id}")
-    public String showJoinForm(@PathVariable Long id, Model model) {
-        model.addAttribute("circleId", id);
+    public String showJoinForm(@PathVariable Long id,
+                               HttpSession session,
+                               Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/?next=/join/" + id;
+        }
+        circleRepository.findById(id).ifPresent(c -> model.addAttribute("circle", c));
+        model.addAttribute("circleId",  id);
+        model.addAttribute("userEmail", session.getAttribute("userEmail"));
         return "join-form";
     }
 
@@ -52,60 +83,64 @@ public class HobbyMvcController {
                               @RequestParam String email,
                               @RequestParam String phone,
                               @RequestParam String reason,
+                              HttpSession session,
                               RedirectAttributes ra) {
-        Registration newReg = new Registration(circleId, userName, email, phone, reason);
-        registrationRepository.save(newReg);
 
-        ra.addFlashAttribute("name",      userName);
-        ra.addFlashAttribute("userEmail", email);
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+
+        circleRepository.findById(circleId).ifPresent(circle -> {
+            Membership membership = new Membership();
+            membership.setCircle(circle);
+            membership.setStatus(Membership.MembershipStatus.ACTIVE);
+            membershipRepository.save(membership);
+        });
+
+        ra.addFlashAttribute("name", userName);
+        ra.addFlashAttribute("circleId", circleId);
         return "redirect:/joined-success";
     }
 
     @GetMapping("/joined-success")
-    public String joinedSuccess(@ModelAttribute("userEmail") String email, Model model) {
-        if (email != null && !email.isEmpty()) {
-            model.addAttribute("memberships", registrationRepository.findByEmail(email));
-        }
+    public String joinedSuccess() {
         return "joined-circles";
     }
 
-    // USE-CASE 3: EDIT PROFILE
-    @GetMapping("/profile/edit/{id}")
-    public String showEditProfile(@PathVariable Long id, Model model) {
-        Hobbyist hobbyist = hobbyistRepository.findById(id).orElse(new Hobbyist());
-        model.addAttribute("hobbyist", hobbyist);
-        return "edit-profile";
-    }
+    // ── Write a Review ───────────────────────────────────────────────────────
 
-    @PostMapping("/profile/update")
-    public String updateProfile(@ModelAttribute Hobbyist hobbyist, RedirectAttributes ra) {
-        hobbyistRepository.save(hobbyist);
-        ra.addFlashAttribute("message", "Profile updated for " + hobbyist.getFirstName());
-        return "redirect:/search";
-    }
-
-    // USE-CASE 4: WRITE REVIEW
     @GetMapping("/review/{circleId}")
-    public String showReviewForm(@PathVariable Long circleId, Model model) {
-        model.addAttribute("circleId",   circleId);
-        model.addAttribute("hobbyistId", 1L); // default for standalone demo
+    public String showReviewForm(@PathVariable Long circleId,
+                                 HttpSession session,
+                                 Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        circleRepository.findById(circleId).ifPresent(c -> model.addAttribute("circle", c));
         return "write-review";
     }
 
     @PostMapping("/review/submit")
-    public String submitReview(@ModelAttribute Review review, RedirectAttributes ra) {
-        reviewRepository.save(review);
-        ra.addFlashAttribute("message", "Review submitted successfully!");
-        return "redirect:/search";
-    }
+    public String submitReview(@RequestParam Long circleId,
+                               @RequestParam Integer rating,
+                               @RequestParam String comment,
+                               HttpSession session,
+                               RedirectAttributes ra) {
 
-    // USE-CASE 5: HOBBYIST DASHBOARD
-    @GetMapping("/hobbyist/dashboard")
-    public String hobbyistDashboard(@RequestParam(name = "email", required = false) String email, Model model) {
-        if (email != null && !email.isEmpty()) {
-            model.addAttribute("memberships", registrationRepository.findByEmail(email));
-            model.addAttribute("userEmail",   email);
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
         }
-        return "hobbyist-dashboard";
+
+        Long userId = (Long) session.getAttribute("userId");
+
+        Review review = new Review();
+        review.setCircleId(circleId);
+        review.setHobbyistId(userId);
+        review.setRating(rating);
+        review.setComment(comment);
+        reviewRepository.save(review);
+
+        ra.addFlashAttribute("successMessage", "Your review has been submitted!");
+        return "redirect:/search";
     }
 }

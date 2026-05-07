@@ -25,6 +25,9 @@ public class Membership {
     @JsonIgnoreProperties("memberships")
     private Circle circle;
 
+    @Column(name = "hobbyist_id", nullable = false)
+    private Long hobbyistId;
+
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = true)
     @JsonIgnoreProperties("memberships")

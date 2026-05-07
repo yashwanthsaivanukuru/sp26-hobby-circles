@@ -1,4 +1,4 @@
-package main.java.com.example.HobbyCircles.controller;
+package com.example.HobbyCircles.controller;
 
 import com.example.HobbyCircles.entity.Provider;
 import com.example.HobbyCircles.entity.User;
